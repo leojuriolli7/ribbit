@@ -20,7 +20,7 @@ export const PostCard: React.FC<PostCardProps> = ({
     <Link href={`posts/${slug}`}>
       <Card
         className={cn(
-          "hover:shadow-xl transition-all dark:hover:border-zinc-700",
+          "hover:shadow-xl transition-all dark:hover:border-zinc-400",
           className
         )}
       >

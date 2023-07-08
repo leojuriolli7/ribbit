@@ -33,7 +33,7 @@ export default async function PostPage({
 
   return (
     <main>
-      <article className="pb-4">
+      <article className="p-6 dark:bg-zinc-900/40 bg-white rounded-xl mb-5 border border-zinc-200 shadow dark:border-zinc-800">
         <Text variant="h2">{post?.title}</Text>
         <Text variant="p">{post?.description}</Text>
       </article>

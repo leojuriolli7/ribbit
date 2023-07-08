@@ -24,7 +24,7 @@ export default function RootLayout({
       <body
         className={cn(
           inter.className,
-          "sm:p-10 p-5 bg-neutral-50 dark:bg-zinc-950"
+          "sm:p-10 p-5 bg-neutral-50 dark:bg-zinc-950 max-w-6xl m-auto"
         )}
       >
         <Providers>
