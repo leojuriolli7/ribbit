@@ -1,10 +1,10 @@
 import { db } from "@/db";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./card";
-import { TrashIcon } from "@radix-ui/react-icons";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../card";
 import { posts } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { Button } from "./button";
+import { DeletePostButton } from "./delete-post-button";
+import Text from "../text";
 
 type PostCardProps = {
   title: string;
@@ -29,15 +29,17 @@ export const PostCard: React.FC<PostCardProps> = ({
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle className="text-xl">{title}</CardTitle>
+        <CardTitle className="text-xl truncate">{title}</CardTitle>
       </CardHeader>
-      <CardContent>{description}</CardContent>
+      <CardContent>
+        <Text variant="p" className="line-clamp-2 text-ellipsis">
+          {description}
+        </Text>
+      </CardContent>
 
       <CardFooter>
         <form action={deletePost(id)}>
-          <Button size="icon" variant="destructive" type="submit">
-            <TrashIcon width={21} height={21} />
-          </Button>
+          <DeletePostButton />
         </form>
       </CardFooter>
     </Card>

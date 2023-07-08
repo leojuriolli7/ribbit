@@ -17,19 +17,22 @@ import { Textarea } from "../ui/textarea";
 export const CreatePostForm = () => {
   const [isPending, startTransition] = useTransition();
 
-  const { register, handleSubmit, formState } = useForm<CreatePostInput>({
-    resolver: zodResolver(createPostSchema),
-    defaultValues: {
-      description: undefined,
-      title: undefined,
-    },
-  });
+  const { register, handleSubmit, formState, reset } = useForm<CreatePostInput>(
+    {
+      resolver: zodResolver(createPostSchema),
+      defaultValues: {
+        description: undefined,
+        title: undefined,
+      },
+    }
+  );
 
   const { errors } = formState;
 
   const onSubmit = (values: CreatePostInput) => {
     startTransition(async () => {
       await createPostAction(values);
+      reset();
     });
   };
 
@@ -37,7 +40,7 @@ export const CreatePostForm = () => {
     <form className="w-64 mt-4" onSubmit={handleSubmit(onSubmit)}>
       <Label>Title</Label>
       {errors?.title && (
-        <Text as="p" className="text-red-500" variant="mutedText">
+        <Text as="p" className="text-red-500 my-1" variant="mutedText">
           {errors?.title?.message}
         </Text>
       )}
@@ -48,7 +51,7 @@ export const CreatePostForm = () => {
       />
       <Label>Description</Label>
       {errors?.description && (
-        <Text as="p" variant="mutedText" className="text-red-500">
+        <Text as="p" className="text-red-500 my-1" variant="mutedText">
           {errors?.description?.message}
         </Text>
       )}
