@@ -22,9 +22,13 @@ export default async function Home() {
       </Text>
 
       <div className="mt-2 w-full max-w-4xl">
-        <div className="flex flex-wrap gap-4">
+        <div className="flex sm:flex-wrap sm:flex-row flex-col flex-nowrap gap-4">
           {posts?.map((post) => (
-            <PostCard className="w-64 h-full" {...post} key={post.id} />
+            <PostCard
+              className="sm:w-64 w-full h-full"
+              {...post}
+              key={post.id}
+            />
           ))}
         </div>
 

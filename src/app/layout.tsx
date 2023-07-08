@@ -22,11 +22,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={cn(inter.className, "p-10 bg-neutral-50 dark:bg-zinc-950")}
+        className={cn(
+          inter.className,
+          "sm:p-10 p-5 bg-neutral-50 dark:bg-zinc-950"
+        )}
       >
         <Providers>
-          <header className="p-5 flex justify-between w-full border-b dark:border-zinc-800 mb-5">
-            <div className="flex items-end gap-4">
+          <header className="p-5 flex items-center justify-between w-full border-b dark:border-zinc-800 mb-5">
+            <div className="sm:flex block items-end gap-4">
               <Link href="/">
                 <Text variant="h1">Ribbit</Text>
               </Link>

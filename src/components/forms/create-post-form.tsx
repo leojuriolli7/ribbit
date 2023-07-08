@@ -34,7 +34,7 @@ export const CreatePostForm = () => {
   };
 
   return (
-    <form className="w-64 mt-4" onSubmit={handleSubmit(onSubmit)}>
+    <form className="sm:w-64 w-full mt-4" onSubmit={handleSubmit(onSubmit)}>
       <Label>Title</Label>
       {errors?.title && (
         <Text as="p" className="text-red-500 my-1" variant="mutedText">
@@ -57,7 +57,7 @@ export const CreatePostForm = () => {
         placeholder="Write a description..."
         className="mb-4"
       />
-      <Button disabled={isPending} type="submit">
+      <Button className="sm:w-auto w-full" disabled={isPending} type="submit">
         Create new post
       </Button>
     </form>
