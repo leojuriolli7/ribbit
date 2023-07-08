@@ -4,6 +4,8 @@ import { posts } from "@/db/schema";
 import { PostCard } from "@/components/ui/post-card";
 import { desc } from "drizzle-orm";
 
+export const runtime = "edge";
+
 async function getPosts() {
   return await db.query.posts.findMany({
     orderBy: [desc(posts.createdAt)],
@@ -22,7 +24,7 @@ export default async function Home() {
       <div className="mt-2 w-full max-w-4xl">
         <div className="flex flex-wrap gap-4">
           {posts?.map((post) => (
-            <PostCard className="w-64" {...post} key={post.id} />
+            <PostCard className="w-64 h-full" {...post} key={post.id} />
           ))}
         </div>
 

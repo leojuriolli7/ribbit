@@ -1,7 +1,7 @@
 "use client";
 
 import { TrashIcon } from "@radix-ui/react-icons";
-import { Button } from "../button";
+import { Button } from "./button";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
 
 export const DeletePostButton = () => {

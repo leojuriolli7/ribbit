@@ -1,7 +1,12 @@
+import { DeletePostButton } from "@/components/ui/delete-post-button";
 import Text from "@/components/ui/text";
 import { db } from "@/db";
 import { posts } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
+export const runtime = "edge";
 
 async function getPost(slug: string) {
   if (!slug) throw new Error("No slug provided");
@@ -10,6 +15,14 @@ async function getPost(slug: string) {
     where: eq(posts.slug, slug),
   });
 }
+
+const deletePost = (slug: string) => async () => {
+  "use server";
+  await db.delete(posts).where(eq(posts.slug, slug));
+
+  revalidatePath("/");
+  redirect("/");
+};
 
 export default async function PostPage({
   params,
@@ -20,9 +33,16 @@ export default async function PostPage({
 
   return (
     <main>
-      <Text variant="h2">{post?.title}</Text>
+      <article className="pb-4">
+        <Text variant="h2">{post?.title}</Text>
+        <Text variant="p">{post?.description}</Text>
+      </article>
 
-      <Text variant="p">{post?.description}</Text>
+      <div className="pt-4 border-t dark:border-zinc-800">
+        <form action={deletePost(params?.slug)}>
+          <DeletePostButton />
+        </form>
+      </div>
     </main>
   );
 }

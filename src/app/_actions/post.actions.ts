@@ -24,5 +24,5 @@ export const createPostAction = async (values: CreatePostInput) => {
   await db.insert(posts).values({ ...values, slug });
 
   revalidatePath("/");
-  return redirect(`/posts/${slug}`);
+  redirect(`/posts/${slug}`);
 };
