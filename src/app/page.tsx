@@ -1,11 +1,13 @@
 import Text from "@/components/ui/text";
 import { db } from "@/db";
 import { posts } from "@/db/schema";
-import { CreatePostForm } from "@/components/forms/create-post-form";
 import { PostCard } from "@/components/ui/post-card";
+import { desc } from "drizzle-orm";
 
 async function getPosts() {
-  return await db.select().from(posts);
+  return await db.query.posts.findMany({
+    orderBy: [desc(posts.createdAt)],
+  });
 }
 
 export default async function Home() {
@@ -13,12 +15,6 @@ export default async function Home() {
 
   return (
     <main>
-      <Text variant="h2" className="mt-1">
-        Create a post
-      </Text>
-
-      <CreatePostForm />
-
       <Text variant="h2" className="mt-6">
         Past posts
       </Text>

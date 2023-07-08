@@ -5,6 +5,7 @@ import { Providers } from "./providers";
 import { ThemeSwitch } from "@/components/ui/theme-switch";
 import { cn } from "@/lib/utils";
 import Text from "@/components/ui/text";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,16 @@ export default function RootLayout({
       >
         <Providers>
           <header className="p-5 flex justify-between w-full border-b dark:border-zinc-800 mb-5">
-            <Text variant="h1">Ribbit</Text>
+            <div className="flex items-end gap-4">
+              <Link href="/">
+                <Text variant="h1">Ribbit</Text>
+              </Link>
+              <Link href="/posts/new" legacyBehavior>
+                <Text as="a" className="underline">
+                  Create new post
+                </Text>
+              </Link>
+            </div>
 
             <ThemeSwitch />
           </header>

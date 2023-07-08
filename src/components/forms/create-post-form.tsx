@@ -17,22 +17,19 @@ import { Textarea } from "../ui/textarea";
 export const CreatePostForm = () => {
   const [isPending, startTransition] = useTransition();
 
-  const { register, handleSubmit, formState, reset } = useForm<CreatePostInput>(
-    {
-      resolver: zodResolver(createPostSchema),
-      defaultValues: {
-        description: undefined,
-        title: undefined,
-      },
-    }
-  );
+  const { register, handleSubmit, formState } = useForm<CreatePostInput>({
+    resolver: zodResolver(createPostSchema),
+    defaultValues: {
+      description: undefined,
+      title: undefined,
+    },
+  });
 
   const { errors } = formState;
 
   const onSubmit = (values: CreatePostInput) => {
     startTransition(async () => {
       await createPostAction(values);
-      reset();
     });
   };
 

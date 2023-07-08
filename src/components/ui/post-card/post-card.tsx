@@ -5,17 +5,19 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { DeletePostButton } from "./delete-post-button";
 import Text from "../text";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 type PostCardProps = {
   title: string;
   description: string | null;
-  id: number;
+  slug: string;
   className?: string;
 };
 
-const deletePost = (id: number) => async () => {
+const deletePost = (slug: string) => async () => {
   "use server";
-  await db.delete(posts).where(eq(posts.id, id));
+  await db.delete(posts).where(eq(posts.slug, slug));
 
   revalidatePath("/");
 };
@@ -23,25 +25,32 @@ const deletePost = (id: number) => async () => {
 export const PostCard: React.FC<PostCardProps> = ({
   title,
   description,
-  id,
+  slug,
   className,
 }) => {
   return (
-    <Card className={className}>
-      <CardHeader>
-        <CardTitle className="text-xl truncate">{title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Text variant="p" className="line-clamp-2 text-ellipsis">
-          {description}
-        </Text>
-      </CardContent>
+    <Link href={`posts/${slug}`}>
+      <Card
+        className={cn(
+          "hover:shadow-xl transition-all dark:hover:border-zinc-700",
+          className
+        )}
+      >
+        <CardHeader>
+          <CardTitle className="text-xl truncate">{title}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Text variant="p" className="line-clamp-2 text-ellipsis">
+            {description}
+          </Text>
+        </CardContent>
 
-      <CardFooter>
-        <form action={deletePost(id)}>
-          <DeletePostButton />
-        </form>
-      </CardFooter>
-    </Card>
+        <CardFooter>
+          <form action={deletePost(slug)}>
+            <DeletePostButton />
+          </form>
+        </CardFooter>
+      </Card>
+    </Link>
   );
 };
