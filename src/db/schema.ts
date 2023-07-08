@@ -7,4 +7,4 @@ export const posts = mysqlTable("posts", {
   description: text("description"),
 });
 
-export type Post = InferModel<typeof posts>;
+export type PostTable = InferModel<typeof posts>;

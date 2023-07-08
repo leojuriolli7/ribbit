@@ -2,6 +2,7 @@ import Text from "@/components/ui/text";
 import { db } from "@/db";
 import { posts } from "@/db/schema";
 import { CreatePostForm } from "@/components/forms/create-post-form";
+import { PostCard } from "@/components/ui/post-card";
 
 async function getPosts() {
   return await db.select().from(posts);
@@ -11,26 +12,25 @@ export default async function Home() {
   const posts = await getPosts();
 
   return (
-    <main className="p-24">
-      <Text variant="h1">Ribbit</Text>
-      <Text variant="lead" className="mt-1">
-        Start by creating a post:
+    <main>
+      <Text variant="h2" className="mt-1">
+        Create a post
       </Text>
 
       <CreatePostForm />
 
-      <div className="flex flex-wrap gap-4 mt-6 w-full max-w-4xl">
-        {posts?.map((post) => (
-          <article
-            className="shadow-sm p-8 border rounded-md w-64"
-            key={post.id}
-          >
-            <Text variant="h3">{post.title}</Text>
-            <Text variant="mutedText" className="mt-2">
-              {post.description}
-            </Text>
-          </article>
-        ))}
+      <Text variant="h2" className="mt-6">
+        Past posts
+      </Text>
+
+      <div className="mt-2 w-full max-w-4xl">
+        <div className="flex flex-wrap gap-4">
+          {posts?.map((post) => (
+            <PostCard className="w-64" {...post} key={post.id} />
+          ))}
+        </div>
+
+        {!posts?.length && <Text variant="mutedText">No posts found.</Text>}
       </div>
     </main>
   );

@@ -12,6 +12,7 @@ import { createPostAction } from "@/app/_actions/post.actions";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import Text from "../ui/text";
+import { Textarea } from "../ui/textarea";
 
 export const CreatePostForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -33,7 +34,7 @@ export const CreatePostForm = () => {
   };
 
   return (
-    <form className="w-64 mt-6" onSubmit={handleSubmit(onSubmit)}>
+    <form className="w-64 mt-4" onSubmit={handleSubmit(onSubmit)}>
       <Label>Title</Label>
       {errors?.title && (
         <Text as="p" className="text-red-500" variant="mutedText">
@@ -51,7 +52,7 @@ export const CreatePostForm = () => {
           {errors?.description?.message}
         </Text>
       )}
-      <Input
+      <Textarea
         {...register("description")}
         placeholder="Write a description..."
         className="mb-4"
