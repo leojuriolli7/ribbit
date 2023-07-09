@@ -31,7 +31,7 @@ export const ConfirmDialog = ({
 }: Props) => {
   return (
     <Dialog>
-      <DialogTrigger>{trigger}</DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent hideCloseButton>
         <DialogHeader>
           <DialogTitle> {title}</DialogTitle>
@@ -39,15 +39,15 @@ export const ConfirmDialog = ({
         </DialogHeader>
         <DialogFooter>
           <div className="w-full flex sm:flex-row flex-col gap-2 justify-end">
-            <Button
-              asChild
-              className="w-full sm:w-auto"
-              disabled={loading}
-              type="button"
-            >
-              <DialogTrigger>Cancel</DialogTrigger>
-            </Button>
-
+            <DialogTrigger>
+              <Button
+                className="w-full sm:w-auto"
+                disabled={loading}
+                type="button"
+              >
+                Cancel
+              </Button>
+            </DialogTrigger>
             <Button
               className="w-full sm:w-auto"
               disabled={loading}
