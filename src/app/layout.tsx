@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Logo from "public/images/logo.png";
 import { ThemeSwitch } from "@/components/ui/theme-switch";
 import { cn } from "@/lib/utils";
 import Text from "@/components/ui/text";
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
+    template: `${siteConfig.name} | %s`,
   },
   description: siteConfig.description,
   keywords: [
@@ -68,7 +69,8 @@ export default function RootLayout({
                 <Link href="/">
                   <div className="flex gap-2 items-center">
                     <Image
-                      src="/images/logo.png"
+                      placeholder="blur"
+                      src={Logo}
                       width={36}
                       height={36}
                       alt="Frog icon in a green background"

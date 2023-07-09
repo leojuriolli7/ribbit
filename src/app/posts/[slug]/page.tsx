@@ -4,16 +4,20 @@ import { db } from "@/db";
 import { posts } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export const runtime = "edge";
 
 async function getPost(slug: string) {
-  if (!slug) throw new Error("No slug provided");
+  if (!slug) notFound();
 
-  return await db.query.posts.findFirst({
+  const post = await db.query.posts.findFirst({
     where: eq(posts.slug, slug),
   });
+
+  if (!post) notFound();
+
+  return post;
 }
 
 const deletePost = (slug: string) => async () => {
