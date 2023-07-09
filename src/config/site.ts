@@ -9,5 +9,5 @@ export const siteConfig = {
     "Server Actions",
     "Ribbit",
   ],
-  url: "https://ribbit-zeta.vercel.app/",
+  url: "https://ribbit-zeta.vercel.app",
 };
