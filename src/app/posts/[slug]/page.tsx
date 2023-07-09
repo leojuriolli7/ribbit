@@ -61,7 +61,9 @@ export default async function PostPage({
     <main>
       <article className="p-6 dark:bg-zinc-900/40 bg-white rounded-xl mb-5 border border-zinc-200 shadow dark:border-zinc-800">
         <Text variant="h2">{post?.title}</Text>
-        <Text variant="p">{post?.description}</Text>
+        <Text variant="p" className="whitespace-break-spaces">
+          {post?.description}
+        </Text>
       </article>
 
       <div className="pt-4 border-t dark:border-zinc-800">
