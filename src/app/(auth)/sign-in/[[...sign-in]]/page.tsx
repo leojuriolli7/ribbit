@@ -9,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function SignInPage() {
-  return <SignIn appearance={clerkComponentStyles} />;
+  return (
+    <div className="sm:w-auto w-full">
+      <SignIn appearance={clerkComponentStyles} />
+    </div>
+  );
 }

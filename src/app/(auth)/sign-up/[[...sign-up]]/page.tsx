@@ -8,5 +8,9 @@ export const metadata: Metadata = {
   title: "Sign up",
 };
 export default function SignUpPage() {
-  return <SignUp appearance={clerkComponentStyles} />;
+  return (
+    <div className="sm:w-auto w-full">
+      <SignUp appearance={clerkComponentStyles} />;
+    </div>
+  );
 }
