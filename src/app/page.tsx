@@ -3,8 +3,14 @@ import { db } from "@/db";
 import { posts } from "@/db/schema";
 import { PostCard } from "@/components/ui/post-card";
 import { desc } from "drizzle-orm";
+import type { Metadata } from "next";
+import { siteConfig } from "@/config/site";
 
 export const runtime = "edge";
+
+export const metadata: Metadata = {
+  title: `${siteConfig.name} | The forefront of amphibious web browsing`,
+};
 
 async function getPosts() {
   return await db.query.posts.findMany({

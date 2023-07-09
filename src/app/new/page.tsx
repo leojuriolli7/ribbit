@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Create a post",
-  description: "Create a new post",
 };
 
 export default function Home() {
