@@ -67,7 +67,12 @@ export const CreatePostForm = () => {
               <FormLabel>Description</FormLabel>
               <FormMessage />
               <FormControl>
-                <Textarea {...field} placeholder="Write a description..." />
+                <Textarea
+                  {...field}
+                  rows={5}
+                  className="h-auto"
+                  placeholder="Write a description..."
+                />
               </FormControl>
             </FormItem>
           )}

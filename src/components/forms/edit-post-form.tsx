@@ -79,7 +79,12 @@ export const EditPostForm = ({ title, description }: Props) => {
               <FormLabel>Description</FormLabel>
               <FormMessage />
               <FormControl>
-                <Textarea {...field} placeholder="Write a description..." />
+                <Textarea
+                  {...field}
+                  rows={10}
+                  className="h-auto"
+                  placeholder="Write a description..."
+                />
               </FormControl>
             </FormItem>
           )}
