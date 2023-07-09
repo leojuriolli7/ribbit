@@ -1,15 +1,32 @@
 "use client";
 
 import { Button } from "./button";
-import { experimental_useFormStatus as useFormStatus } from "react-dom";
 import { Icons } from "./icons";
+import { ConfirmDialog } from "./confirm-dialog";
+import { useTransition } from "react";
+import { deletePostAction } from "@/app/_actions/post.actions";
 
-export const DeletePostButton = () => {
-  const { pending: deleting } = useFormStatus();
+export const DeletePostButton = ({ slug }: { slug: string }) => {
+  const [deleting, startTransition] = useTransition();
+
+  const onClickDelete = () => startTransition(() => deletePostAction(slug));
 
   return (
-    <Button disabled={deleting} size="icon" variant="destructive" type="submit">
-      <Icons.delete width={21} height={21} />
-    </Button>
+    <ConfirmDialog
+      loading={deleting}
+      onClickDelete={onClickDelete}
+      confirmButtonMessage="Delete post"
+      title="Are you sure you want to delete this post?"
+      trigger={
+        <Button
+          disabled={deleting}
+          size="icon"
+          variant="destructive"
+          type="button"
+        >
+          <Icons.delete width={21} height={21} />
+        </Button>
+      }
+    />
   );
 };

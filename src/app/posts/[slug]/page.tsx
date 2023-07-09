@@ -5,8 +5,7 @@ import { db } from "@/db";
 import { posts } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import type { Metadata } from "next";
-import { revalidatePath } from "next/cache";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { auth } from "@clerk/nextjs";
 import { EditPostButton } from "@/components/ui/edit-post-button";
 import { EditPostForm } from "@/components/forms/edit-post-form";
@@ -45,14 +44,6 @@ export async function generateMetadata({
   };
 }
 
-const deletePost = (slug: string) => async () => {
-  "use server";
-  await db.delete(posts).where(eq(posts.slug, slug));
-
-  revalidatePath("/");
-  redirect("/");
-};
-
 export default async function PostPage({
   params,
   searchParams,
@@ -85,9 +76,7 @@ export default async function PostPage({
 
       {userIsOP && (
         <div className="flex gap-2 items-center pt-4 border-t dark:border-zinc-800">
-          <form action={deletePost(params?.slug)}>
-            <DeletePostButton />
-          </form>
+          <DeletePostButton slug={params.slug} />
 
           <EditPostButton />
         </div>

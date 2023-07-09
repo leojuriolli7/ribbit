@@ -1,5 +1,6 @@
 "use server";
 
+import "server-only";
 import { db } from "@/db";
 import { posts } from "@/db/schema";
 import slugify from "slugify";
@@ -47,4 +48,11 @@ export const editPostAction = async (values: EditPostInput) => {
     .where(eq(posts.slug, values.slug));
 
   revalidatePath(`/posts/${values.slug}`);
+};
+
+export const deletePostAction = async (slug: string) => {
+  await db.delete(posts).where(eq(posts.slug, slug));
+
+  revalidatePath("/");
+  redirect("/");
 };
