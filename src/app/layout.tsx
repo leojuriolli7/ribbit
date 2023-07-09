@@ -6,6 +6,7 @@ import { Header } from "@/components/ui/header";
 import { Providers } from "./providers";
 
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -57,15 +58,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={cn(inter.className, "bg-neutral-50 dark:bg-zinc-950")}>
-        <Providers>
-          <div className="w-full max-w-6xl m-auto sm:p-10 p-5">
-            <Header />
-            {children}
-          </div>
-        </Providers>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body className={cn(inter.className, "bg-neutral-50 dark:bg-zinc-950")}>
+          <Providers>
+            <div className="w-full max-w-6xl m-auto sm:p-10 p-5">
+              <Header />
+              {children}
+            </div>
+          </Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

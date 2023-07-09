@@ -7,6 +7,7 @@ import { eq } from "drizzle-orm";
 import type { Metadata } from "next";
 import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs";
 
 export const runtime = "edge";
 
@@ -56,6 +57,9 @@ export default async function PostPage({
   params: { slug: string };
 }) {
   const post = await getPost(params?.slug);
+  const { userId } = auth();
+
+  const userIsOP = userId === post?.userId;
 
   return (
     <main>
@@ -66,11 +70,13 @@ export default async function PostPage({
         </Text>
       </article>
 
-      <div className="pt-4 border-t dark:border-zinc-800">
-        <form action={deletePost(params?.slug)}>
-          <DeletePostButton />
-        </form>
-      </div>
+      {userIsOP && (
+        <div className="pt-4 border-t dark:border-zinc-800">
+          <form action={deletePost(params?.slug)}>
+            <DeletePostButton />
+          </form>
+        </div>
+      )}
     </main>
   );
 }

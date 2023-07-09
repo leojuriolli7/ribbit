@@ -9,6 +9,7 @@ import {
 
 export const posts = mysqlTable("posts", {
   id: serial("id").primaryKey(),
+  userId: varchar("userId", { length: 191 }).notNull(),
   title: varchar("name", { length: 191 }).notNull(),
   slug: text("slug").notNull(),
   description: text("description").notNull(),
