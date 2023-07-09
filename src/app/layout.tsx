@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={cn(inter.className, "bg-neutral-50 dark:bg-zinc-950")}>
         <Providers>
           <div className="w-full max-w-6xl m-auto sm:p-10 p-5">
-            <header className="p-5 flex items-center justify-between w-full border-b dark:border-zinc-800 mb-5">
+            <header className="sm:px-5 px-0 py-5 flex items-center justify-between w-full border-b dark:border-zinc-800 mb-5">
               <div className="sm:flex block items-end gap-4">
                 <Link href="/">
                   <Text variant="h1">Ribbit</Text>

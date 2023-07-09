@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Label } from "@radix-ui/react-label";
 import {
   type CreatePostInput,
   createPostSchema,
@@ -11,13 +10,20 @@ import { useTransition } from "react";
 import { createPostAction } from "@/app/_actions/post.actions";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import Text from "../ui/text";
 import { Textarea } from "../ui/textarea";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 
 export const CreatePostForm = () => {
   const [isPending, startTransition] = useTransition();
 
-  const { register, handleSubmit, formState } = useForm<CreatePostInput>({
+  const methods = useForm<CreatePostInput>({
     resolver: zodResolver(createPostSchema),
     defaultValues: {
       description: undefined,
@@ -25,7 +31,7 @@ export const CreatePostForm = () => {
     },
   });
 
-  const { errors } = formState;
+  const { control, handleSubmit } = methods;
 
   const onSubmit = (values: CreatePostInput) => {
     startTransition(async () => {
@@ -34,32 +40,44 @@ export const CreatePostForm = () => {
   };
 
   return (
-    <form className="sm:w-64 w-full mt-4" onSubmit={handleSubmit(onSubmit)}>
-      <Label>Title</Label>
-      {errors?.title && (
-        <Text as="p" className="text-red-500 my-1" variant="mutedText">
-          {errors?.title?.message}
-        </Text>
-      )}
-      <Input
-        {...register("title")}
-        placeholder="Write a title..."
-        className="mb-2"
-      />
-      <Label>Description</Label>
-      {errors?.description && (
-        <Text as="p" className="text-red-500 my-1" variant="mutedText">
-          {errors?.description?.message}
-        </Text>
-      )}
-      <Textarea
-        {...register("description")}
-        placeholder="Write a description..."
-        className="mb-4"
-      />
-      <Button className="sm:w-auto w-full" disabled={isPending} type="submit">
-        Create new post
-      </Button>
-    </form>
+    <Form {...methods}>
+      <form className="sm:w-64 w-full mt-4" onSubmit={handleSubmit(onSubmit)}>
+        <FormField
+          control={control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Title</FormLabel>
+              <FormMessage />
+              <FormControl>
+                <Input {...field} placeholder="Write a title..." />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="description"
+          render={({ field }) => (
+            <FormItem className="mt-4">
+              <FormLabel>Description</FormLabel>
+              <FormMessage />
+              <FormControl>
+                <Textarea {...field} placeholder="Write a description..." />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <Button
+          className="sm:w-auto w-full mt-4"
+          disabled={isPending}
+          type="submit"
+        >
+          Create new post
+        </Button>
+      </form>
+    </Form>
   );
 };
