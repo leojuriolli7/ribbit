@@ -1,14 +1,16 @@
+import { cache } from "react";
 import { DeletePostButton } from "@/components/ui/delete-post-button";
 import Text from "@/components/ui/text";
 import { db } from "@/db";
 import { posts } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import type { Metadata } from "next";
 import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 
 export const runtime = "edge";
 
-async function getPost(slug: string) {
+const getPost = cache(async (slug: string) => {
   if (!slug) notFound();
 
   const post = await db.query.posts.findFirst({
@@ -18,6 +20,26 @@ async function getPost(slug: string) {
   if (!post) notFound();
 
   return post;
+});
+
+export async function generateMetadata({
+  params,
+}: {
+  params: {
+    slug: string;
+  };
+}): Promise<Metadata> {
+  const slug = params.slug;
+  const post = await getPost(slug);
+
+  return {
+    title: post.title,
+    description: post.description,
+    twitter: {
+      title: post.title,
+      description: post.description,
+    },
+  };
 }
 
 const deletePost = (slug: string) => async () => {

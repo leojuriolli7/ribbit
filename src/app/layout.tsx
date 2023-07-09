@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Logo from "public/images/logo.png";
-import { ThemeSwitch } from "@/components/ui/theme-switch";
 import { cn } from "@/lib/utils";
-import Text from "@/components/ui/text";
-import Link from "next/link";
 import { siteConfig } from "@/config/site";
-import Image from "next/image";
-import "./globals.css";
+import { Header } from "@/components/ui/header";
 import { Providers } from "./providers";
+
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -64,30 +61,7 @@ export default function RootLayout({
       <body className={cn(inter.className, "bg-neutral-50 dark:bg-zinc-950")}>
         <Providers>
           <div className="w-full max-w-6xl m-auto sm:p-10 p-5">
-            <header className="sm:px-5 px-0 py-5 flex items-center justify-between w-full border-b dark:border-zinc-800 mb-5">
-              <nav className="sm:flex block items-end gap-4">
-                <Link href="/">
-                  <div className="flex gap-2 items-center">
-                    <Image
-                      placeholder="blur"
-                      src={Logo}
-                      width={36}
-                      height={36}
-                      alt="Frog icon in a green background"
-                      className="rounded-md"
-                    />
-                    <Text variant="h1">Ribbit</Text>
-                  </div>
-                </Link>
-                <Link href="/posts/new" legacyBehavior>
-                  <Text as="a" className="underline">
-                    Create new post
-                  </Text>
-                </Link>
-              </nav>
-
-              <ThemeSwitch />
-            </header>
+            <Header />
             {children}
           </div>
         </Providers>
