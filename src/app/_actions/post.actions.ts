@@ -3,9 +3,13 @@
 import { db } from "@/db";
 import { posts } from "@/db/schema";
 import slugify from "slugify";
-import type { CreatePostInput } from "@/lib/validations/post.schema";
+import type {
+  CreatePostInput,
+  EditPostInput,
+} from "@/lib/validations/post.schema";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { eq } from "drizzle-orm";
 
 function getRandomHash() {
   const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -31,4 +35,16 @@ export const createPostAction = async (values: CreatePostInput) => {
 
   revalidatePath("/");
   redirect(`/posts/${slug}`);
+};
+
+export const editPostAction = async (values: EditPostInput) => {
+  await db
+    .update(posts)
+    .set({
+      description: values.description,
+      title: values.title,
+    })
+    .where(eq(posts.slug, values.slug));
+
+  revalidatePath(`/posts/${values.slug}`);
 };

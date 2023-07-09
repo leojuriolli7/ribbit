@@ -8,6 +8,8 @@ import type { Metadata } from "next";
 import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs";
+import { EditPostButton } from "@/components/ui/edit-post-button";
+import { EditPostForm } from "@/components/forms/edit-post-form";
 
 export const runtime = "edge";
 
@@ -53,28 +55,41 @@ const deletePost = (slug: string) => async () => {
 
 export default async function PostPage({
   params,
+  searchParams,
 }: {
   params: { slug: string };
+  searchParams: {
+    edit: string;
+  };
 }) {
   const post = await getPost(params?.slug);
   const { userId } = auth();
+  const userIsOP = !!post && userId === post?.userId;
 
-  const userIsOP = userId === post?.userId;
+  const showEditForm = !!searchParams.edit && userIsOP;
 
   return (
     <main>
       <article className="p-6 dark:bg-zinc-900/40 bg-white rounded-xl mb-5 border border-zinc-200 shadow dark:border-zinc-800">
-        <Text variant="h2">{post?.title}</Text>
-        <Text variant="p" className="whitespace-break-spaces">
-          {post?.description}
-        </Text>
+        {showEditForm ? (
+          <EditPostForm {...post} />
+        ) : (
+          <>
+            <Text variant="h2">{post?.title}</Text>
+            <Text variant="p" className="whitespace-break-spaces">
+              {post?.description}
+            </Text>
+          </>
+        )}
       </article>
 
       {userIsOP && (
-        <div className="pt-4 border-t dark:border-zinc-800">
+        <div className="flex gap-2 items-center pt-4 border-t dark:border-zinc-800">
           <form action={deletePost(params?.slug)}>
             <DeletePostButton />
           </form>
+
+          <EditPostButton />
         </div>
       )}
     </main>
