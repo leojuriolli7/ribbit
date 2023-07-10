@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function SignUpPage() {
   return (
     <div className="sm:w-auto w-full">
-      <SignUp appearance={clerkComponentStyles} />;
+      <SignUp appearance={clerkComponentStyles} />
     </div>
   );
 }
