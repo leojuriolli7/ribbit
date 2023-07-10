@@ -6,7 +6,7 @@ import { dark } from "@clerk/themes";
 import { clerkPrimaryColor } from "@/lib/constants";
 
 export const UserButton = () => {
-  const { theme } = useTheme();
+  const { resolvedTheme: theme } = useTheme();
 
   const clerkWidgetTheme = theme === "dark" ? dark : undefined;
 
