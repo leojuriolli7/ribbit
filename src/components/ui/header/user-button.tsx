@@ -2,9 +2,11 @@
 
 import { UserButton as ClerkUserButton } from "@clerk/nextjs";
 import useClerkAppearance from "@/lib/hooks/useClerkAppearance";
+import { usePathname } from "next/navigation";
 
 export const UserButton = () => {
   const appearance = useClerkAppearance();
+  const pathname = usePathname();
 
   return (
     <ClerkUserButton
@@ -12,7 +14,7 @@ export const UserButton = () => {
         ...appearance,
         userProfile: appearance,
       }}
-      afterSignOutUrl="/"
+      afterSignOutUrl={pathname}
     />
   );
 };

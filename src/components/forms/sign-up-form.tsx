@@ -3,12 +3,13 @@
 import useClerkAppearance from "@/lib/hooks/useClerkAppearance";
 import { SignUp } from "@clerk/nextjs";
 
-export const SignUpForm = () => {
+export const SignUpForm = ({ redirectUrl }: { redirectUrl?: string }) => {
   const appearance = useClerkAppearance();
 
   return (
     <div className="sm:w-auto w-full">
       <SignUp
+        redirectUrl={redirectUrl}
         appearance={{
           ...appearance,
           elements: {

@@ -7,6 +7,14 @@ export const metadata: Metadata = {
   title: "Sign in",
 };
 
-export default function SignInPage() {
-  return <SignInForm />;
+export default function SignInPage({
+  searchParams,
+}: {
+  searchParams: {
+    redirectUrl?: string;
+  };
+}) {
+  const { redirectUrl } = searchParams || {};
+
+  return <SignInForm redirectUrl={redirectUrl} />;
 }

@@ -9,6 +9,7 @@ import { Icons } from "../icons";
 import { ThemeSwitch } from "../theme-switch";
 import { SignedIn, auth } from "@clerk/nextjs";
 import { UserButton } from "./user-button";
+import { AuthButtonWrapper } from "./auth-button-wrapper";
 
 const iconAttrs = {
   className: "sm:w-[18px] sm:h-[18px] w-5 h-5",
@@ -36,7 +37,7 @@ export const Header = () => {
       </nav>
 
       <div className="flex gap-2 items-center">
-        <Link href={userId ? "/new" : "/sign-in"}>
+        <AuthButtonWrapper isLoggedIn={!!userId}>
           <Button
             variant="brand"
             className="flex gap-1 items-center h-9 sm:w-auto w-9 sm:px-2 sm:py-2 px-0 py-0"
@@ -51,7 +52,7 @@ export const Header = () => {
               {userId ? "New post" : "Login"}
             </span>
           </Button>
-        </Link>
+        </AuthButtonWrapper>
 
         <SignedIn>
           <UserButton />
