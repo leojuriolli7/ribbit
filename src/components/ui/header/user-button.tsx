@@ -1,28 +1,16 @@
 "use client";
 
-import { useTheme } from "next-themes";
 import { UserButton as ClerkUserButton } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
-import { clerkPrimaryColor } from "@/lib/constants";
+import useClerkAppearance from "@/lib/hooks/useClerkAppearance";
 
 export const UserButton = () => {
-  const { resolvedTheme: theme } = useTheme();
-
-  const clerkWidgetTheme = theme === "dark" ? dark : undefined;
+  const appearance = useClerkAppearance();
 
   return (
     <ClerkUserButton
       appearance={{
-        baseTheme: clerkWidgetTheme,
-        variables: {
-          colorPrimary: clerkPrimaryColor,
-        },
-        userProfile: {
-          baseTheme: clerkWidgetTheme,
-          variables: {
-            colorPrimary: clerkPrimaryColor,
-          },
-        },
+        ...appearance,
+        userProfile: appearance,
       }}
       afterSignOutUrl="/"
     />
