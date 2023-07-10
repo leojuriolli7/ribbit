@@ -71,9 +71,11 @@ export default async function PostPage({
           <>
             <Text variant="h2">{post?.title}</Text>
             {/* Streaming: this will load after the post loads, without blocking the page from loading. */}
-            <Suspense fallback={<Skeleton className="w-24 h-5 mt-6" />}>
-              <Author {...post} />
-            </Suspense>
+            {post && (
+              <Suspense fallback={<Skeleton className="w-24 h-5 mt-6" />}>
+                <Author {...post} />
+              </Suspense>
+            )}
             <Text variant="p" className="whitespace-break-spaces">
               {post?.description}
             </Text>
