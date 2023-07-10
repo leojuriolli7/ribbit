@@ -1,4 +1,4 @@
-import { cache } from "react";
+import { Suspense, cache } from "react";
 import { DeletePostButton } from "@/components/ui/delete-post-button";
 import Text from "@/components/ui/text";
 import { db } from "@/db";
@@ -9,6 +9,8 @@ import { notFound } from "next/navigation";
 import { auth } from "@clerk/nextjs";
 import { EditPostButton } from "@/components/ui/edit-post-button";
 import { EditPostForm } from "@/components/forms/edit-post-form";
+import { Skeleton } from "@/components/ui/skeleton";
+import Author from "@/components/ui/author";
 
 export const runtime = "edge";
 
@@ -54,6 +56,7 @@ export default async function PostPage({
   };
 }) {
   const post = await getPost(params?.slug);
+
   const { userId } = auth();
   const userIsOP = !!post && userId === post?.userId;
 
@@ -67,6 +70,10 @@ export default async function PostPage({
         ) : (
           <>
             <Text variant="h2">{post?.title}</Text>
+            {/* Streaming: this will load after the post loads, without blocking the page from loading. */}
+            <Suspense fallback={<Skeleton className="w-24 h-5 mt-6" />}>
+              <Author {...post} />
+            </Suspense>
             <Text variant="p" className="whitespace-break-spaces">
               {post?.description}
             </Text>
