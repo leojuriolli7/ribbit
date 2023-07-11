@@ -8,6 +8,7 @@ import { CommentActions } from "./comment-actions";
 import CommentAuthor from "./comment-author";
 import { Suspense } from "react";
 import { CommentAuthorSkeleton } from "./comment-author-skeleton";
+import { SignedIn } from "@clerk/nextjs";
 
 export const Comment = (comment: CommentWithChildren) => {
   const hasChildren = !!comment?.children?.length;
@@ -29,11 +30,13 @@ export const Comment = (comment: CommentWithChildren) => {
         </Suspense>
         <Text variant="p">{comment?.text}</Text>
 
-        <CommentActions
-          postId={comment.postId as number}
-          commentId={comment.id}
-          authorId={comment.userId}
-        />
+        <SignedIn>
+          <CommentActions
+            postId={comment.postId as number}
+            commentId={comment.id}
+            authorId={comment.userId}
+          />
+        </SignedIn>
       </div>
 
       {hasChildren && <CommentsList comments={comment?.children} />}
