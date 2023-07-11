@@ -47,12 +47,13 @@ export const CreateCommentForm = ({ postId, slug, parentId }: Props) => {
     },
   });
 
-  const { control, handleSubmit } = methods;
+  const { control, handleSubmit, setValue } = methods;
 
   const onSubmit = (values: CreateCommentInput) => {
     startTransition(async () => {
       await createCommentAction(values);
 
+      setValue("text", "");
       router.push(pathname, { scroll: false });
     });
   };
