@@ -12,7 +12,6 @@ export default async function CommentAuthor({
   createdAt: Date | null;
 }) {
   const author = await clerkClient.users.getUser(authorId);
-
   const username = author?.firstName ?? author?.username ?? "Anon";
 
   const createdAtString = createdAt ? ` @ ${createdAt?.toLocaleString()}` : "";
