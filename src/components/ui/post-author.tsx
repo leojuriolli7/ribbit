@@ -4,7 +4,7 @@ import { clerkClient } from "@clerk/nextjs";
 import Text from "./text";
 import Image from "next/image";
 
-export default async function Author({
+export default async function PostAuthor({
   userId,
   createdAt,
 }: {
@@ -14,7 +14,7 @@ export default async function Author({
   const author = await clerkClient.users.getUser(userId);
   const username = author?.firstName ?? author?.username ?? "Anon";
 
-  const createdAtString = createdAt ? ` at ${createdAt?.toLocaleString()}` : "";
+  const createdAtString = createdAt ? ` @ ${createdAt?.toLocaleString()}` : "";
 
   return (
     <div className="w-full flex gap-2 items-center">
@@ -33,7 +33,9 @@ export default async function Author({
         >
           {username}
         </Text>
-        {createdAtString}
+        <Text variant="p" as="span" className="text-zinc-500">
+          {createdAtString}
+        </Text>
       </Text>
     </div>
   );

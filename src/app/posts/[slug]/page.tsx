@@ -9,8 +9,11 @@ import { notFound } from "next/navigation";
 import { auth } from "@clerk/nextjs";
 import { EditPostButton } from "@/components/ui/edit-post-button";
 import { EditPostForm } from "@/components/forms/edit-post-form";
-import { Skeleton } from "@/components/ui/skeleton";
-import Author from "@/components/ui/author";
+import PostAuthor from "@/components/ui/post-author";
+import { CreateCommentForm } from "@/components/forms/create-comment-form";
+import CommentSection from "@/components/ui/comments/comment-section";
+import { CommentSectionSkeleton } from "@/components/ui/comments/comment-section-skeleton";
+import { PostAuthorSkeleton } from "@/components/ui/post-author-skeleton";
 
 export const runtime = "edge";
 
@@ -19,6 +22,9 @@ const getPost = cache(async (slug: string) => {
 
   const post = await db.query.posts.findFirst({
     where: eq(posts.slug, slug),
+    with: {
+      comments: true,
+    },
   });
 
   if (!post) notFound();
@@ -71,8 +77,8 @@ export default async function PostPage({
           <>
             <Text variant="h2">{post?.title}</Text>
             {/* Streaming: this will load after the post loads, without blocking the page from loading. */}
-            <Suspense fallback={<Skeleton className="w-24 h-5 mt-6" />}>
-              <Author {...post} />
+            <Suspense fallback={<PostAuthorSkeleton />}>
+              <PostAuthor {...post} />
             </Suspense>
             <Text variant="p" className="whitespace-break-spaces">
               {post?.description}
@@ -88,6 +94,18 @@ export default async function PostPage({
           <EditPostButton />
         </div>
       )}
+
+      <div className="w-full mt-6 pt-4 border-t dark:border-zinc-800">
+        <Text variant="h2">Comments</Text>
+
+        <div className="sm:w-auto w-full">
+          <CreateCommentForm postId={post.id} slug={post.slug} />
+        </div>
+      </div>
+
+      <Suspense fallback={<CommentSectionSkeleton />}>
+        <CommentSection postId={post.id} />
+      </Suspense>
     </main>
   );
 }
