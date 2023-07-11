@@ -2,7 +2,7 @@
 
 import { db } from "@/db";
 import { comments } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { CommentsList } from "./comments-list";
 
 type Comment = {
@@ -62,6 +62,7 @@ function formatComments(comments: Array<Comment>) {
 const getComments = async (postId: number) => {
   return await db.query.comments.findMany({
     where: eq(comments.postId, postId),
+    orderBy: [desc(comments.createdAt)],
   });
 };
 
