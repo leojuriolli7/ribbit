@@ -12,6 +12,7 @@ import { CreateCommentForm } from "../../forms/create-comment-form";
 import { useTransition } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { deleteCommentAction } from "@/app/_actions/comment.actions";
+import { ConfirmDialog } from "../confirm-dialog";
 
 type Props = {
   authorId: string;
@@ -20,13 +21,13 @@ type Props = {
 };
 
 /** Reply and delete options. */
-export const CommentActions = ({ commentId, postId, authorId }: Props) => {
+export const CommentOptions = ({ commentId, postId, authorId }: Props) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { slug } = useParams();
   const router = useRouter();
 
-  const [_, startDeleting] = useTransition();
+  const [deleting, startDeleting] = useTransition();
 
   const { userId } = useAuth();
   const userIsAuthor = !!userId && userId === authorId;
@@ -63,14 +64,22 @@ export const CommentActions = ({ commentId, postId, authorId }: Props) => {
         </Link>
 
         {userIsAuthor && (
-          <Text
-            onClick={onClickDelete}
-            role="button"
-            variant="mutedText"
-            className="underline mt-2"
-          >
-            Delete
-          </Text>
+          <ConfirmDialog
+            loading={deleting}
+            onClickDelete={onClickDelete}
+            confirmButtonMessage="Delete comment"
+            title="Are you sure you want to delete this comment?"
+            description="This action is permanent. This will delete your comment and all replies below."
+            trigger={
+              <Text
+                role="button"
+                variant="mutedText"
+                className="underline mt-2"
+              >
+                Delete
+              </Text>
+            }
+          />
         )}
       </div>
 

@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import type { CommentWithChildren } from "./comment-section";
 import { CommentsList } from "./comments-list";
 import Text from "../text";
-import { CommentActions } from "./comment-actions";
+import { CommentOptions } from "./comment-options";
 import CommentAuthor from "./comment-author";
 import { Suspense } from "react";
 import { CommentAuthorSkeleton } from "./comment-author-skeleton";
@@ -31,7 +31,7 @@ export const Comment = (comment: CommentWithChildren) => {
         <Text variant="p">{comment?.text}</Text>
 
         <SignedIn>
-          <CommentActions
+          <CommentOptions
             postId={comment.postId as number}
             commentId={comment.id}
             authorId={comment.userId}
