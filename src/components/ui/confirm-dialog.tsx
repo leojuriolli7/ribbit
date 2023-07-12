@@ -34,7 +34,7 @@ export const ConfirmDialog = ({
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent hideCloseButton>
         <DialogHeader>
-          <DialogTitle> {title}</DialogTitle>
+          <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -48,14 +48,16 @@ export const ConfirmDialog = ({
                 Cancel
               </Button>
             </DialogTrigger>
-            <Button
-              className="w-full sm:w-auto"
-              disabled={loading}
-              variant="destructive"
-              onClick={onClickDelete}
-            >
-              {confirmButtonMessage}
-            </Button>
+            <DialogTrigger>
+              <Button
+                className="w-full sm:w-auto"
+                disabled={loading}
+                variant="destructive"
+                onClick={onClickDelete}
+              >
+                {confirmButtonMessage}
+              </Button>
+            </DialogTrigger>
           </div>
         </DialogFooter>
       </DialogContent>
