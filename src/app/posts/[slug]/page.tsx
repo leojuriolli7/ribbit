@@ -22,9 +22,6 @@ const getPost = cache(async (slug: string) => {
 
   const post = await db.query.posts.findFirst({
     where: eq(posts.slug, slug),
-    with: {
-      comments: true,
-    },
   });
 
   if (!post) notFound();
