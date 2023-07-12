@@ -2,6 +2,13 @@
 
 Ribbit is a Reddit-inspired forum application built with [Next.js 13](https://nextjs.org/), [Drizzle ORM](https://orm.drizzle.team/) and [Clerk.](https://clerk.com/)
 
-It uses the [App router](https://nextjs.org/docs/app) and [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions), [Server & Client components](https://nextjs.org/docs/getting-started/react-essentials#server-components), the [new metadata API](https://nextjs.org/docs/app/api-reference/file-conventions/metadata), React.js [Suspense](https://react.dev/reference/react/Suspense), [cache()](https://nextjs.org/docs/app/building-your-application/data-fetching/caching#react-cache), [useFormStatus](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions#experimental-useformstatus), and more new React 18/Next 13 features.
+### Stack
+- Next.js 13 [App router](https://nextjs.org/docs/app)
+- [Server components](https://nextjs.org/docs/getting-started/react-essentials#server-components) for direct secure access to backend resources and reduced client-side bundle sizes.
+- [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions).
+- React.js [Suspense](https://react.dev/reference/react/Suspense) and [Streaming data](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming) for smaller blocking times and responsive UI, without impacting SEO.
+- React.js [cache()](https://nextjs.org/docs/app/building-your-application/data-fetching/caching#react-cache) and [useTransition](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions#custom-invocation-using-starttransition), among other new React 18 APIs.
+-  [New Next.js metadata API](https://nextjs.org/docs/app/api-reference/file-conventions/metadata) for easier SEO.
+
 
 The goal for this project is to **learn and use all new features from Next 13**, coming from Next 12.
