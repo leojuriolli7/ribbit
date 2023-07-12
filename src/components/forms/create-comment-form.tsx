@@ -29,8 +29,8 @@ type Props = {
 };
 
 export const CreateCommentForm = ({ postId, slug, parentId }: Props) => {
-  const { userId } = useAuth();
-  const [isPending, startTransition] = useTransition();
+  const { userId, isSignedIn } = useAuth();
+  const [isCreatingComment, startTransition] = useTransition();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -48,6 +48,10 @@ export const CreateCommentForm = ({ postId, slug, parentId }: Props) => {
   });
 
   const { control, handleSubmit, setValue } = methods;
+  const signedInTitle = isReply ? "Type your reply" : "Join the conversation";
+  const signedOutTitle = "Login to post a comment!";
+  const signedOutButtonMessage = "Can't comment while logged out";
+  const signedInButtonMesage = isReply ? "Reply" : "Post comment";
 
   const onSubmit = (values: CreateCommentInput) => {
     startTransition(async () => {
@@ -67,13 +71,14 @@ export const CreateCommentForm = ({ postId, slug, parentId }: Props) => {
           render={({ field }) => (
             <FormItem className={cn(isReply && "mt-4")}>
               <FormLabel>
-                {isReply ? "Type your reply" : "Join the conversation"}
+                {isSignedIn ? signedInTitle : signedOutTitle}
               </FormLabel>
               <FormMessage />
               <FormControl>
                 <Textarea
                   {...field}
                   rows={5}
+                  disabled={!isSignedIn}
                   className="h-auto"
                   placeholder={
                     isReply ? "Write your reply..." : "Write a comment..."
@@ -86,10 +91,10 @@ export const CreateCommentForm = ({ postId, slug, parentId }: Props) => {
 
         <Button
           className="sm:w-auto w-full mt-4"
-          disabled={isPending}
+          disabled={isCreatingComment || !isSignedIn}
           type="submit"
         >
-          {isReply ? "Reply" : "Post comment"}
+          {isSignedIn ? signedInButtonMesage : signedOutButtonMessage}
         </Button>
       </form>
     </Form>
