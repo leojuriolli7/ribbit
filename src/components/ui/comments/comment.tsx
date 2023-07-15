@@ -19,7 +19,8 @@ export const Comment = (comment: CommentWithChildren) => {
       className={cn(
         "dark:bg-zinc-900/40 bg-white rounded-xl border-t border-l border-zinc-200 shadow dark:border-zinc-800",
         hasParent && "ml-4",
-        !hasParent && "border-b border-r"
+        !hasParent && "border-b border-r",
+        hasParent && !hasChildren && "border-b"
       )}
     >
       <div className="p-4">
