@@ -2,9 +2,6 @@
 import type { User as UserInterface } from "@clerk/nextjs/api";
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { users } from "@/db/schema";
-import { db } from "@/db";
-import { eq } from "drizzle-orm";
 
 const webhookSecret: string = process.env.WEBHOOK_SECRET || "";
 
@@ -41,25 +38,7 @@ export async function POST(req: Request) {
   // Handle the webhook
   const eventType: EventType = evt.type;
   if (eventType === "user.created" || eventType === "user.updated") {
-    const { id, firstName, username, imageUrl } = evt.data;
-
-    const exists = await db.query.users.findFirst({
-      where: eq(users.clerkId, id),
-    });
-
-    if (!!exists) {
-      await db
-        .update(users)
-        .set({ firstName, username, imageUrl })
-        .where(eq(users.clerkId, id));
-    } else {
-      await db.insert(users).values({
-        firstName,
-        username,
-        imageUrl,
-        clerkId: id,
-      });
-    }
+    console.log("webhook data: ", evt.data);
   }
   return new Response("", {
     status: 201,
