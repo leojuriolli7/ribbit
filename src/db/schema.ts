@@ -12,7 +12,9 @@ export const users = mysqlTable("users", {
   id: serial("id").primaryKey(),
   clerkId: varchar("userId", { length: 191 }).notNull(),
   username: text("username"),
+  email: text("email").notNull(),
   firstName: text("firstName"),
+  lastName: text("lastName"),
   imageUrl: text("imageUrl"),
   createdAt: timestamp("createdAt").defaultNow(),
 });

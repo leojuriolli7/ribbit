@@ -1,10 +1,33 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import type { User as UserInterface } from "@clerk/nextjs/api";
+import type { User } from "@clerk/nextjs/api";
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
+
+type UnwantedKeys =
+  | "emailAddresses"
+  | "firstName"
+  | "lastName"
+  | "primaryEmailAddressId"
+  | "primaryPhoneNumberId"
+  | "phoneNumbers";
+
+// object with data returned from webhook.
+// can verify this in Clerk dashboard webhook logs.
+interface UserInterface extends Omit<User, UnwantedKeys> {
+  email_addresses: {
+    email_address: string;
+    id: string;
+  }[];
+  primary_email_address_id: string;
+  first_name: string | null;
+  last_name: string | null;
+  image_url: string;
+}
+
+export const runtime = "edge";
 
 const webhookSecret: string = process.env.WEBHOOK_SECRET || "";
 
@@ -41,7 +64,26 @@ export async function POST(req: Request) {
   // Handle the webhook
   const eventType: EventType = evt.type;
   if (eventType === "user.created" || eventType === "user.updated") {
-    const { id, firstName, username, imageUrl } = evt.data;
+    const {
+      id,
+      first_name: firstName,
+      username,
+      image_url: imageUrl,
+      email_addresses,
+      primary_email_address_id,
+      last_name: lastName,
+    } = evt.data;
+
+    const emailObject = email_addresses?.find((email) => {
+      return email.id === primary_email_address_id;
+    });
+    if (!emailObject) {
+      return new Response("Error locating user", {
+        status: 400,
+      });
+    }
+
+    const primaryEmail = emailObject.email_address;
 
     const exists = await db.query.users.findFirst({
       where: eq(users.clerkId, id),
@@ -49,17 +91,31 @@ export async function POST(req: Request) {
     if (!!exists) {
       await db
         .update(users)
-        .set({ firstName, username, imageUrl })
+        .set({
+          firstName,
+          lastName,
+          username,
+          imageUrl,
+          email: primaryEmail,
+        })
         .where(eq(users.clerkId, id));
     } else {
       await db.insert(users).values({
         firstName,
+        lastName,
+        email: primaryEmail,
         username,
         imageUrl,
         clerkId: id,
       });
     }
   }
+  if (eventType === "user.deleted") {
+    const { id } = evt.data;
+
+    await db.delete(users).where(eq(users.clerkId, id));
+  }
+
   return new Response("", {
     status: 201,
   });
@@ -71,4 +127,4 @@ type Event = {
   type: EventType;
 };
 
-type EventType = "user.created" | "user.updated" | "*";
+type EventType = "user.created" | "user.updated" | "user.deleted" | "*";
