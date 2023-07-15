@@ -56,6 +56,10 @@ async function handler(request: Request) {
       });
     }
   }
+
+  return new Response("", {
+    status: 201,
+  });
 }
 
 type EventType = "user.created" | "user.updated" | "*";
