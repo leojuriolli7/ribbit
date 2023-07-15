@@ -8,9 +8,10 @@ export default authMiddleware({
     "/signin(.*)",
     "/signup(.*)",
     "/sso-callback(.*)",
+    "/api/webhooks/user",
   ],
 });
 
 export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)"],
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api)(.*)"],
 };
