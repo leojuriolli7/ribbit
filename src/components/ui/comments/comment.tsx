@@ -15,7 +15,7 @@ export const Comment = (comment: CommentWithChildren) => {
   const hasParent = !!comment?.parentId;
 
   return (
-    <div
+    <li
       className={cn(
         "dark:bg-zinc-900/40 bg-white rounded-xl border-t border-l border-zinc-200 shadow dark:border-zinc-800",
         hasParent && "ml-4",
@@ -43,6 +43,6 @@ export const Comment = (comment: CommentWithChildren) => {
       </div>
 
       {hasChildren && <CommentsList comments={comment?.children} />}
-    </div>
+    </li>
   );
 };

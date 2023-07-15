@@ -23,6 +23,7 @@ export const DeletePostButton = ({ slug }: { slug: string }) => {
           size="icon"
           variant="destructive"
           type="button"
+          aria-label="Delete this post"
         >
           <Icons.delete width={21} height={21} />
         </Button>

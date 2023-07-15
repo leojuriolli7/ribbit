@@ -9,10 +9,10 @@ export const CommentsList = ({
   comments: CommentWithChildren[];
 }) => {
   return (
-    <div className="flex flex-col gap-4">
+    <ul className="flex flex-col gap-4">
       {comments?.map((comment) => {
         return <Comment key={comment.id} {...comment} />;
       })}
-    </div>
+    </ul>
   );
 };

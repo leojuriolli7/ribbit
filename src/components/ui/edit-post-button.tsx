@@ -23,7 +23,13 @@ export const EditPostButton = (props: Props) => {
 
   return (
     <Link href={onClickHref}>
-      <Button {...props} size="icon" type="submit" variant="outline">
+      <Button
+        {...props}
+        size="icon"
+        type="submit"
+        variant="outline"
+        aria-label={isEditing ? "Cancel" : "Edit this post"}
+      >
         {isEditing ? (
           <Icons.close {...iconAttrs} />
         ) : (
