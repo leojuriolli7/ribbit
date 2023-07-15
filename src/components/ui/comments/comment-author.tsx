@@ -30,7 +30,7 @@ export default async function CommentAuthor({
         className="rounded-full"
         alt={`${username} profile picture`}
       />
-      <Text variant="smallText" as="p">
+      <Text variant="smallText" as="p" className="leading-5">
         {username}{" "}
         <Text variant="smallText" as="span" className="text-zinc-500">
           {createdAtString}

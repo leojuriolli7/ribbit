@@ -17,11 +17,12 @@ export const Comment = (comment: CommentWithChildren) => {
   return (
     <div
       className={cn(
-        "dark:bg-zinc-900/40 bg-white rounded-xl border border-zinc-200 shadow dark:border-zinc-800 p-4",
-        hasParent && "ml-2"
+        "dark:bg-zinc-900/40 bg-white rounded-xl border-t border-l border-zinc-200 shadow dark:border-zinc-800",
+        hasParent && "ml-4",
+        !hasParent && "border-b border-r"
       )}
     >
-      <div className={cn(hasChildren && "mb-4")}>
+      <div className="p-4">
         <Suspense fallback={<CommentAuthorSkeleton />}>
           <CommentAuthor
             authorId={comment.userId}
