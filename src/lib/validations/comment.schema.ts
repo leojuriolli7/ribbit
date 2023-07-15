@@ -9,3 +9,11 @@ export const createCommentSchema = z.object({
 });
 
 export type CreateCommentInput = z.infer<typeof createCommentSchema>;
+
+export const editCommentSchema = z.object({
+  text: z.string().trim().min(3, "Required"),
+  commentId: z.number(),
+  slug: z.string().nonempty(),
+});
+
+export type EditCommentInput = z.infer<typeof editCommentSchema>;

@@ -21,6 +21,7 @@ import {
 import { useAuth } from "@clerk/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 type Props = {
   slug: string;
@@ -89,13 +90,28 @@ export const CreateCommentForm = ({ postId, slug, parentId }: Props) => {
           )}
         />
 
-        <Button
-          className="sm:w-auto w-full mt-4"
-          disabled={isCreatingComment || !isSignedIn}
-          type="submit"
-        >
-          {isSignedIn ? signedInButtonMesage : signedOutButtonMessage}
-        </Button>
+        <div className="flex mt-4 items-center gap-2">
+          {isReply && (
+            <Link className="w-1/2" href={pathname} scroll={false}>
+              <Button
+                className="w-full mt-4"
+                disabled={isCreatingComment || !isSignedIn}
+                variant="outline"
+                type="button"
+              >
+                Cancel
+              </Button>
+            </Link>
+          )}
+
+          <Button
+            className={cn("mt-4", isReply ? "w-1/2" : "sm:w-auto w-full")}
+            disabled={isCreatingComment || !isSignedIn}
+            type="submit"
+          >
+            {isSignedIn ? signedInButtonMesage : signedOutButtonMessage}
+          </Button>
+        </div>
       </form>
     </Form>
   );

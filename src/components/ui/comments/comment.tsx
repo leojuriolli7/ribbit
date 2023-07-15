@@ -3,12 +3,12 @@
 import { cn } from "@/lib/utils";
 import type { CommentWithChildren } from "./comment-section";
 import { CommentsList } from "./comments-list";
-import Text from "../text";
 import { CommentOptions } from "./comment-options";
 import CommentAuthor from "./comment-author";
 import { Suspense } from "react";
 import { CommentAuthorSkeleton } from "./comment-author-skeleton";
 import { SignedIn } from "@clerk/nextjs";
+import { CommentText } from "./comment-text";
 
 export const Comment = (comment: CommentWithChildren) => {
   const hasChildren = !!comment?.children?.length;
@@ -28,13 +28,14 @@ export const Comment = (comment: CommentWithChildren) => {
             createdAt={comment.createdAt}
           />
         </Suspense>
-        <Text variant="p">{comment?.text}</Text>
+        <CommentText {...comment} />
 
         <SignedIn>
           <CommentOptions
             postId={comment.postId as number}
             commentId={comment.id}
             authorId={comment.userId}
+            commentText={comment.text}
           />
         </SignedIn>
       </div>

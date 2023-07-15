@@ -2,7 +2,10 @@
 
 import { db } from "@/db";
 import { comments } from "@/db/schema";
-import type { CreateCommentInput } from "@/lib/validations/comment.schema";
+import type {
+  CreateCommentInput,
+  EditCommentInput,
+} from "@/lib/validations/comment.schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -20,6 +23,21 @@ export const createCommentAction = async ({
     postId,
     ...(typeof parentId === "number" && { parentId }),
   });
+
+  revalidatePath(`/posts/${slug}`);
+};
+
+export const editCommentAction = async ({
+  commentId,
+  text,
+  slug,
+}: EditCommentInput) => {
+  await db
+    .update(comments)
+    .set({
+      text,
+    })
+    .where(eq(comments.id, commentId));
 
   revalidatePath(`/posts/${slug}`);
 };
