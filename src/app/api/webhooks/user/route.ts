@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-// import type { User as UserInterface } from "@clerk/nextjs/api";
+import type { User as UserInterface } from "@clerk/nextjs/api";
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import type { UserWebhookEvent } from "@clerk/clerk-sdk-node";
 
 const webhookSecret: string = process.env.WEBHOOK_SECRET || "";
 
@@ -27,9 +26,9 @@ export async function POST(req: Request) {
     "svix-signature": svixSignature,
   };
   const wh = new Webhook(webhookSecret);
-  let evt: UserWebhookEvent | null = null;
+  let evt: Event | null = null;
   try {
-    evt = wh.verify(payloadString, svixHeaders) as UserWebhookEvent;
+    evt = wh.verify(payloadString, svixHeaders) as Event;
   } catch (_) {
     console.log("error");
     return new Response("Error occured", {
@@ -37,11 +36,19 @@ export async function POST(req: Request) {
     });
   }
   // Handle the webhook
-  const eventType = evt.type;
+  const eventType: EventType = evt.type;
   if (eventType === "user.created" || eventType === "user.updated") {
-    console.log("webhook data: ", evt.data);
+    console.log(evt.data, evt.type);
   }
   return new Response("", {
     status: 201,
   });
 }
+
+type Event = {
+  data: UserInterface;
+  object: "event";
+  type: EventType;
+};
+
+type EventType = "user.created" | "user.updated" | "*";
