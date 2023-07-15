@@ -1,8 +1,10 @@
 "use server";
 
-import { clerkClient } from "@clerk/nextjs";
 import Text from "./text";
 import Image from "next/image";
+import { db } from "@/db";
+import { eq } from "drizzle-orm";
+import { users } from "@/db/schema";
 
 export default async function PostAuthor({
   userId,
@@ -11,9 +13,13 @@ export default async function PostAuthor({
   userId: string;
   createdAt: Date | null;
 }) {
-  const author = await clerkClient.users.getUser(userId);
-  const username = author?.firstName ?? author?.username ?? "Anon";
+  const author = await db.query.users.findFirst({
+    where: eq(users.clerkId, userId),
+  });
 
+  if (!author) return null;
+
+  const username = author?.firstName ?? author?.username ?? "Anon";
   const createdAtString = createdAt ? ` @ ${createdAt?.toLocaleString()}` : "";
 
   return (

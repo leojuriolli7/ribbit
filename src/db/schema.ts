@@ -15,7 +15,9 @@ export const users = mysqlTable("users", {
   email: text("email").notNull(),
   firstName: text("firstName"),
   lastName: text("lastName"),
-  imageUrl: text("imageUrl"),
+  imageUrl: text("imageUrl")
+    .notNull()
+    .default("https://ribbit-zeta.vercel.app/images/avatar.webp"),
   createdAt: timestamp("createdAt").defaultNow(),
 });
 
