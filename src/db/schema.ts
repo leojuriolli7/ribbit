@@ -8,6 +8,19 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
+export const users = mysqlTable("users", {
+  id: serial("id").primaryKey(),
+  clerkId: varchar("userId", { length: 191 }).notNull(),
+  username: text("username"),
+  firstName: text("firstName"),
+  imageUrl: text("imageUrl"),
+  createdAt: timestamp("createdAt").defaultNow(),
+});
+
+export const usersRelations = relations(users, ({ many }) => ({
+  posts: many(posts),
+}));
+
 export const posts = mysqlTable("posts", {
   id: serial("id").primaryKey(),
   userId: varchar("userId", { length: 191 }).notNull(),
@@ -44,6 +57,10 @@ export const commentsRelations = relations(comments, ({ one }) => ({
   }),
 }));
 
-export const postsRelations = relations(posts, ({ many }) => ({
+export const postsRelations = relations(posts, ({ many, one }) => ({
   comments: many(comments),
+  author: one(users, {
+    fields: [posts.userId],
+    references: [users.id],
+  }),
 }));
