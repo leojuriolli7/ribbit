@@ -14,3 +14,8 @@ Ribbit is a Reddit-inspired forum application built with [Next.js 13](https://ne
 
 
 The goal for this project is to **learn and use all new features from Next 13**, coming from Next 12.
+
+### Authentication with Clerk
+I set up authentication with [Clerk](https://clerk.com/), while also having my database's own user table by consuming their [webhooks.](https://clerk.com/docs/integration/webhooks) 
+
+Whenever a user is created, updated or deleted, a webhook is sent to `/app/api/webhooks/user/route.ts`, and we update the info in the project's Planetscale database.
