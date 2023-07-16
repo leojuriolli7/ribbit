@@ -6,6 +6,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
+// these keys are not returned by the webhooks.
 type UnwantedKeys =
   | "emailAddresses"
   | "firstName"
@@ -21,6 +22,7 @@ interface UserInterface extends Omit<User, UnwantedKeys> {
     email_address: string;
     id: string;
   }[];
+  username: string;
   primary_email_address_id: string;
   first_name: string | null;
   last_name: string | null;
