@@ -104,7 +104,7 @@ export const CommentOptions = ({
                 <Text
                   role="button"
                   variant="mutedText"
-                  className="underline mt-2"
+                  className="underline mt-2 appearance-none"
                 >
                   Delete
                 </Text>
