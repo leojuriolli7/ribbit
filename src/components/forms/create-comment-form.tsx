@@ -94,7 +94,7 @@ export const CreateCommentForm = ({ postId, slug, parentId }: Props) => {
           {isReply && (
             <Link className="w-1/2" href={pathname} scroll={false}>
               <Button
-                className="w-full mt-4"
+                className="w-full"
                 disabled={isCreatingComment || !isSignedIn}
                 variant="outline"
                 type="button"
@@ -105,7 +105,7 @@ export const CreateCommentForm = ({ postId, slug, parentId }: Props) => {
           )}
 
           <Button
-            className={cn("mt-4", isReply ? "w-1/2" : "sm:w-auto w-full")}
+            className={cn(isReply ? "w-1/2" : "sm:w-auto w-full")}
             disabled={isCreatingComment || !isSignedIn}
             type="submit"
           >
