@@ -22,7 +22,7 @@ export const EditPostButton = (props: Props) => {
   const onClickHref = isEditing ? pathname : `${pathname}?edit=true`;
 
   return (
-    <Link href={onClickHref}>
+    <Link href={onClickHref} replace>
       <Button
         {...props}
         size="icon"

@@ -46,7 +46,7 @@ export const CommentOptions = ({
         postSlug: slug,
       });
 
-      router.push(pathname, { scroll: false });
+      router.replace(pathname, { scroll: false });
     });
 
   const currentlyReplyingTo = searchParams.get("replyingTo");
@@ -80,7 +80,7 @@ export const CommentOptions = ({
       )}
 
       <div className="flex gap-2 items-center">
-        <Link href={replyHref} scroll={false}>
+        <Link href={replyHref} scroll={false} replace>
           <Text variant="mutedText" className="underline mt-2">
             {showReplyForm ? "Stop replying" : "Reply"}
           </Text>
@@ -88,7 +88,7 @@ export const CommentOptions = ({
 
         {userIsAuthor && (
           <>
-            <Link href={editHref} scroll={false}>
+            <Link href={editHref} scroll={false} replace>
               <Text variant="mutedText" className="underline mt-2">
                 {showEditForm ? "Stop editing" : "Edit"}
               </Text>

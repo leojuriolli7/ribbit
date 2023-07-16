@@ -59,7 +59,7 @@ export const CreateCommentForm = ({ postId, slug, parentId }: Props) => {
       await createCommentAction(values);
 
       setValue("text", "");
-      router.push(pathname, { scroll: false });
+      router.replace(pathname, { scroll: false });
     });
   };
 
@@ -92,7 +92,7 @@ export const CreateCommentForm = ({ postId, slug, parentId }: Props) => {
 
         <div className="flex mt-4 items-center gap-2">
           {isReply && (
-            <Link className="w-1/2" href={pathname} scroll={false}>
+            <Link className="w-1/2" href={pathname} scroll={false} replace>
               <Button
                 className="w-full"
                 disabled={isCreatingComment || !isSignedIn}

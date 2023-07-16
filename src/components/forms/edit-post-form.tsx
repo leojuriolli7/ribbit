@@ -51,7 +51,7 @@ export const EditPostForm = ({ title, description }: Props) => {
     startTransition(async () => {
       await editPostAction(values);
     });
-    router.push(pathname);
+    router.replace(pathname);
   };
 
   return (
@@ -91,7 +91,7 @@ export const EditPostForm = ({ title, description }: Props) => {
         />
 
         <div className="flex mt-4 items-center gap-2">
-          <Link className="w-1/2" href={pathname}>
+          <Link className="w-1/2" href={pathname} replace>
             <Button
               className="w-full"
               disabled={isPending}

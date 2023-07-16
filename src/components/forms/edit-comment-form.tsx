@@ -47,7 +47,7 @@ export const EditCommentForm = ({ text, slug, commentId }: Props) => {
     startTransition(async () => {
       await editCommentAction(values);
 
-      router.push(pathname, { scroll: false });
+      router.replace(pathname, { scroll: false });
     });
   };
 
@@ -77,7 +77,7 @@ export const EditCommentForm = ({ text, slug, commentId }: Props) => {
         />
 
         <div className="flex items-center gap-2">
-          <Link className="w-1/2" href={pathname} scroll={false}>
+          <Link className="w-1/2" href={pathname} scroll={false} replace>
             <Button
               className="w-full mt-4"
               variant="outline"
