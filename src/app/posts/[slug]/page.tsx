@@ -6,7 +6,7 @@ import { posts } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { auth } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs";
 import { EditPostButton } from "@/components/ui/edit-post-button";
 import { EditPostForm } from "@/components/forms/edit-post-form";
 import PostAuthor from "@/components/ui/post-author";
@@ -60,7 +60,7 @@ export default async function PostPage({
 }) {
   const post = await getPost(params?.slug);
 
-  const { user } = auth();
+  const user = await currentUser();
   const userIsOP = !!post && user?.publicMetadata.databaseId === post?.userId;
 
   const showEditForm = !!searchParams.edit && userIsOP;
