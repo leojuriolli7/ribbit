@@ -28,7 +28,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 
 export const posts = mysqlTable("posts", {
   id: serial("id").primaryKey(),
-  userId: varchar("userId", { length: 191 }).notNull(),
+  userId: int("userId").notNull(),
   title: varchar("name", { length: 191 }).notNull(),
   slug: text("slug").notNull(),
   description: text("description").notNull(),
@@ -41,10 +41,12 @@ export const comments = mysqlTable("comments", {
   id: serial("id").primaryKey(),
   parentId: int("parentId"),
   text: text("text").notNull(),
-  userId: varchar("userId", { length: 191 }).notNull(),
+  userId: int("userId").notNull(),
   postId: int("postId"),
   createdAt: timestamp("createdAt").defaultNow(),
 });
+
+export type CommentsTable = InferModel<typeof comments>;
 
 export const commentsParentRelation = relations(comments, ({ one, many }) => ({
   parent: one(comments, {

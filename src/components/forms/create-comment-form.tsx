@@ -18,7 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { useAuth } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -30,7 +30,9 @@ type Props = {
 };
 
 export const CreateCommentForm = ({ postId, slug, parentId }: Props) => {
-  const { userId, isSignedIn } = useAuth();
+  const { user, isSignedIn } = useUser();
+  const userId = user?.publicMetadata.databaseId;
+
   const [isCreatingComment, startTransition] = useTransition();
   const router = useRouter();
   const pathname = usePathname();
@@ -41,7 +43,7 @@ export const CreateCommentForm = ({ postId, slug, parentId }: Props) => {
     resolver: zodResolver(createCommentSchema),
     defaultValues: {
       text: undefined,
-      ...(userId && { userId }),
+      userId,
       postId,
       slug,
       parentId,

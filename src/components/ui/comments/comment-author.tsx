@@ -9,11 +9,11 @@ export default async function CommentAuthor({
   authorId,
   createdAt,
 }: {
-  authorId: string;
+  authorId: number;
   createdAt: Date | null;
 }) {
   const author = await db.query.users.findFirst({
-    where: eq(users.clerkId, authorId),
+    where: eq(users.id, authorId),
   });
 
   if (!author) return null;

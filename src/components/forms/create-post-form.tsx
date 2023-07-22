@@ -19,10 +19,12 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { useAuth } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 
 export const CreatePostForm = () => {
-  const { userId } = useAuth();
+  const { user } = useUser();
+  const userId = user?.publicMetadata.databaseId;
+
   const [isPending, startTransition] = useTransition();
 
   const methods = useForm<CreatePostInput>({
@@ -30,7 +32,7 @@ export const CreatePostForm = () => {
     defaultValues: {
       description: undefined,
       title: undefined,
-      userId: userId as string,
+      userId,
     },
   });
 

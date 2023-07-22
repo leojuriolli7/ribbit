@@ -10,11 +10,11 @@ export default async function PostAuthor({
   userId,
   createdAt,
 }: {
-  userId: string;
+  userId: number;
   createdAt: Date | null;
 }) {
   const author = await db.query.users.findFirst({
-    where: eq(users.clerkId, userId),
+    where: eq(users.id, userId),
   });
 
   if (!author) return null;

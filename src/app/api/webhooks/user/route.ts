@@ -5,6 +5,7 @@ import { Webhook } from "svix";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { clerkClient } from "@clerk/nextjs";
 
 // these keys are not returned by the webhooks.
 type UnwantedKeys =
@@ -33,6 +34,10 @@ export const runtime = "edge";
 
 const webhookSecret: string = process.env.WEBHOOK_SECRET || "";
 
+/**
+ * This API Route will be hit by the Clerk webhook whenever a user
+ * is created, updated or deleted.
+ */
 export async function POST(req: Request) {
   const payload = await req.json();
   const payloadString = JSON.stringify(payload);
@@ -90,6 +95,8 @@ export async function POST(req: Request) {
     const exists = await db.query.users.findFirst({
       where: eq(users.clerkId, id),
     });
+
+    // If the user already exists in the database, we only update it.
     if (!!exists) {
       await db
         .update(users)
@@ -102,6 +109,7 @@ export async function POST(req: Request) {
         })
         .where(eq(users.clerkId, id));
     } else {
+      // if there is no user in the db, create one.
       await db.insert(users).values({
         firstName,
         lastName,
@@ -110,6 +118,23 @@ export async function POST(req: Request) {
         imageUrl,
         clerkId: id,
       });
+
+      const createdUser = await db.query.users.findFirst({
+        where: eq(users.clerkId, id),
+      });
+
+      /**
+       * After a user is created in the database, we get the database id
+       * and assign it to the clerk user object's metadata, so we can easily
+       * access it anywhere.
+       */
+      if (createdUser) {
+        await clerkClient.users.updateUserMetadata(id, {
+          publicMetadata: {
+            databaseId: createdUser.id,
+          },
+        });
+      }
     }
   }
   if (eventType === "user.deleted") {

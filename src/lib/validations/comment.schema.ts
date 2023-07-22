@@ -2,7 +2,7 @@ import * as z from "zod";
 
 export const createCommentSchema = z.object({
   text: z.string().trim().min(3, "Required"),
-  userId: z.string().nonempty(),
+  userId: z.number(),
   postId: z.number(),
   slug: z.string().nonempty(),
   parentId: z.number().optional(),

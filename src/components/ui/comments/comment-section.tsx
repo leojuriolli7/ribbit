@@ -1,18 +1,11 @@
 "use server";
 
 import { db } from "@/db";
-import { comments } from "@/db/schema";
+import { type CommentsTable, comments } from "@/db/schema";
 import { desc, eq } from "drizzle-orm";
 import { CommentsList } from "./comments-list";
 
-type Comment = {
-  parentId: number | null;
-  id: number;
-  userId: string;
-  text: string;
-  postId: number | null;
-  createdAt: Date | null;
-};
+type Comment = CommentsTable;
 
 export type CommentWithChildren = Comment & {
   children: CommentWithChildren[];

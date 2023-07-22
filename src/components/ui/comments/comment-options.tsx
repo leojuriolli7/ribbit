@@ -10,13 +10,13 @@ import {
 import Text from "../text";
 import { CreateCommentForm } from "../../forms/create-comment-form";
 import { useTransition } from "react";
-import { useAuth } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { deleteCommentAction } from "@/app/_actions/comment.actions";
 import { ConfirmDialog } from "../confirm-dialog";
 import { EditCommentForm } from "@/components/forms/edit-comment-form";
 
 type Props = {
-  authorId: string;
+  authorId: number;
   commentId: number;
   postId: number;
   commentText: string;
@@ -36,7 +36,8 @@ export const CommentOptions = ({
 
   const [deleting, startDeleting] = useTransition();
 
-  const { userId } = useAuth();
+  const { user } = useUser();
+  const userId = user?.publicMetadata.databaseId;
   const userIsAuthor = !!userId && userId === authorId;
 
   const onClickDelete = () =>

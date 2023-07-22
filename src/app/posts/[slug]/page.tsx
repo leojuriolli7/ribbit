@@ -60,8 +60,8 @@ export default async function PostPage({
 }) {
   const post = await getPost(params?.slug);
 
-  const { userId } = auth();
-  const userIsOP = !!post && userId === post?.userId;
+  const { user } = auth();
+  const userIsOP = !!post && user?.publicMetadata.databaseId === post?.userId;
 
   const showEditForm = !!searchParams.edit && userIsOP;
 

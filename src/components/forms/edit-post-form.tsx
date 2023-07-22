@@ -20,7 +20,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { useAuth } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 
 type Props = {
@@ -32,8 +32,10 @@ export const EditPostForm = ({ title, description }: Props) => {
   const [isPending, startTransition] = useTransition();
   const { slug } = useParams();
   const pathname = usePathname();
-  const { userId } = useAuth();
   const router = useRouter();
+
+  const { user } = useUser();
+  const userId = user?.publicMetadata.databaseId;
 
   const methods = useForm<EditPostInput>({
     resolver: zodResolver(editPostSchema),
@@ -41,7 +43,7 @@ export const EditPostForm = ({ title, description }: Props) => {
       description,
       title,
       slug,
-      userId: userId as string,
+      userId,
     },
   });
 
