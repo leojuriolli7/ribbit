@@ -7,17 +7,11 @@ import { Button } from "../button";
 import Text from "../text";
 import { Icons } from "../icons";
 import { ThemeSwitch } from "../theme-switch";
-import { SignedIn, auth } from "@clerk/nextjs";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { UserButton } from "./user-button";
-import { AuthButtonWrapper } from "./auth-button-wrapper";
-
-const iconAttrs = {
-  className: "sm:w-[18px] sm:h-[18px] w-5 h-5",
-};
+import { LoginButton } from "./login-button";
 
 export const Header = () => {
-  const { userId } = auth();
-
   return (
     <header className="sm:px-5 px-0 py-5 flex items-center justify-between w-full border-b dark:border-zinc-800 mb-5">
       <nav className="sm:flex block items-end gap-4">
@@ -37,24 +31,21 @@ export const Header = () => {
       </nav>
 
       <div className="flex gap-2 items-center">
-        <AuthButtonWrapper isLoggedIn={!!userId}>
-          <Button
-            variant="brand"
-            className="flex gap-1 items-center h-9 sm:w-auto w-9 sm:px-2 sm:py-2 px-0 py-0"
-          >
-            {userId ? (
-              <Icons.plus {...iconAttrs} />
-            ) : (
-              <Icons.login {...iconAttrs} />
-            )}
-
-            <span className="hidden sm:block">
-              {userId ? "New post" : "Login"}
-            </span>
-          </Button>
-        </AuthButtonWrapper>
+        <SignedOut>
+          <LoginButton />
+        </SignedOut>
 
         <SignedIn>
+          <Link href="/new">
+            <Button
+              variant="brand"
+              className="flex gap-1 items-center h-9 sm:w-auto w-9 sm:px-2 sm:py-2 px-0 py-0"
+            >
+              <Icons.plus className="sm:w-[18px] sm:h-[18px] w-5 h-5" />
+              <span className="hidden sm:block">New post</span>
+            </Button>
+          </Link>
+
           <UserButton />
         </SignedIn>
 
